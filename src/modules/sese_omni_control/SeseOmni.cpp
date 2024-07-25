@@ -32,6 +32,7 @@
  ****************************************************************************/
 
 #include "SeseOmni.hpp"
+#include <cassert>
 
 SeseOmni::SeseOmni() : ModuleParams(nullptr),
 					   ScheduledWorkItem(MODULE_NAME, px4::wq_configurations::rate_ctrl)
@@ -186,7 +187,13 @@ void SeseOmni::Run()
 			const float dt = math::min((now - _time_stamp_last), 5000_ms) / 1e3f;
 			_time_stamp_last = now;
 
-			float desired_heading = heading_sp.get();
+			updateHeading();
+
+			float desired_heading;
+			if (this->heading_manual_on)
+				desired_heading = this->iterativeHeading;
+			else
+				desired_heading = heading_sp.get();
 
 			float current_heading = _local_pos.heading;
 
@@ -319,4 +326,21 @@ Rover Differential Drive controller.
 extern "C" __EXPORT int sese_omni_control_main(int argc, char *argv[])
 {
 	return SeseOmni::main(argc, argv);
+}
+
+const float& SeseOmni::getIterativeHeading() const
+{
+	return this->iterativeHeading;
+}
+
+void SeseOmni::updateHeading()
+{
+	iterativeHeading += this->headingScale * manual_control_setpoint_s.roll;
+	if (iterativeHeading >= PI_VALUE)
+		iterativeHeading = -PI_VALUE
+	else if (iterativeHeading <= -PI_VALUE)
+		iterativeHeading = PI_VALUE
+	assert(iterativeHeading >= -PI_VALUE
+		&& iterativeHeading <= PI_VALUE
+		&& "iterativeHeading out of range: abs(iterativeHeading) > 3.14(PI_VALUE) )")
 }

@@ -71,6 +71,9 @@ public:
 
 	bool init();
 
+	const float& getIterativeHeading() const;
+	void updateHeading();
+
 protected:
 	void updateParams() override;
 
@@ -109,6 +112,11 @@ private:
 	PID_t _x_velocity_pid{};
 	PID_t _y_velocity_pid{};
 
+	// Change this value as needed
+	const float headingScale = 0.2;
+	float iterativeHeading{0.0f};
+	const float PI_VALUE{3.14f};
+
 	float _max_speed{0.1f};
 	float _max_angular_velocity{0.1f};
 
@@ -132,6 +140,7 @@ private:
 		(ParamFloat<px4::params::Y_VEL_I_GAIN>) y_velocity_i_gain,
 		(ParamFloat<px4::params::Y_VEL_D_GAIN>) y_velocity_d_gain,
 		(ParamFloat<px4::params::HEADING_SP>) heading_sp,
+		(ParamFloat<px4::params::HEADING_MANUAL_ON>) heading_manual_on,
 		(ParamFloat<px4::params::X_POS_SP>) x_pos_sp,
 		(ParamFloat<px4::params::Y_POS_SP>) y_pos_sp,
 		(ParamFloat<px4::params::THRUST_SCALING>) thrust_scaling,

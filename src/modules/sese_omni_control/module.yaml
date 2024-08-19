@@ -179,6 +179,11 @@ parameters:
         increment: 0.001
         decimal: 3
         default: 0.0
+      HEADING_MANUAL_ON:
+        description:
+          short: Boolean manual heading
+          long: Boolean manual heading
+        type: bool
       X_POS_SP:
         description:
           short: SetPoint for X axis position (in NED)

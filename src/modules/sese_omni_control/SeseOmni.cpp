@@ -269,7 +269,7 @@ void SeseOmni::Run()
 			_actuator_controls_status_pub.publish(status);
 		}
 	}
-	else if(_hold_mode){
+	else if(_hold_mode || _offboard_mode){
 		if (_trajectory_setpoint_sub.update(&_trajectory_setpoint)){
 			trajectory_setpoint_x = _trajectory_setpoint.position[0];
 			trajectory_setpoint_y = _trajectory_setpoint.position[1];

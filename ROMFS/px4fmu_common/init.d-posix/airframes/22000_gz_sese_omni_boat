@@ -79,10 +79,3 @@ param set-default PWM_MAIN_FUNC1 101
 param set-default PWM_MAIN_FUNC2 102
 param set-default PWM_MAIN_FUNC3 103
 param set-default PWM_MAIN_FUNC4 104
-
-# Pixhawk position on the boat (Zimorodek)
-param set-default EKF2_IMU_POS_X -0.1
-param set-default EKF2_IMU_POS_Y -0.1
-
-# RTK GPS position on the boat (Zimorodek)
-param set-default EKF2_GPS_POS_X -0.31

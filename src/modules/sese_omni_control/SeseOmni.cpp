@@ -246,7 +246,7 @@ void SeseOmni::Run()
 			// float velocity_y_setpoint = pid_calculate(&_y_pos_pid, y_pos_setpoint, y_pos_ned, velocity_y_ned, dt);
 
 			// Position tolerance
-			const float position_tolerance = 0.1f; // 10 cm
+			const float position_tolerance = 0.15f; // 15 cm
 			float velocity_x_setpoint;
 			float velocity_y_setpoint;
 			if (fabs(x_pos_ned - x_pos_setpoint) < position_tolerance && fabs(y_pos_ned - y_pos_setpoint) < position_tolerance) {

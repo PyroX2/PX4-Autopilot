@@ -314,11 +314,22 @@ void SeseOmni::Run()
 			torque_setpoint.timestamp = now;
 			torque_setpoint.xyz[0] = 0.0f;
 			torque_setpoint.xyz[1] = 0.0f;
-			torque_setpoint.xyz[2] = pid_calculate(&_att_pid, trajectory_setpoint_heading, heading, 0.0f, dt)*torque_scaling.get();
 
+			// Compute shortest heading error
+			float heading_error = atan2(sin(trajectory_setpoint_heading - heading), cos(trajectory_setpoint_heading - heading));
+			torque_setpoint.xyz[2] = pid_calculate(&_att_pid, heading_error, 0.0f, 0.0f, dt) * torque_scaling.get();
 
-			float velocity_x_setpoint = pid_calculate(&_x_pos_pid, trajectory_setpoint_x, x_pos_ned, velocity_x_ned, dt);
-			float velocity_y_setpoint = pid_calculate(&_y_pos_pid, trajectory_setpoint_y, y_pos_ned, velocity_y_ned, dt);
+			// Position tolerance
+			const float position_tolerance = 0.15f; // 15 cm
+			float velocity_x_setpoint;
+			float velocity_y_setpoint;
+			if (fabs(x_pos_ned - trajectory_setpoint_x) < position_tolerance && fabs(y_pos_ned - trajectory_setpoint_y) < position_tolerance) {
+				velocity_x_setpoint = 0.0f;
+				velocity_y_setpoint = 0.0f;
+			} else {
+				velocity_x_setpoint = pid_calculate(&_x_pos_pid, trajectory_setpoint_x, x_pos_ned, velocity_x_ned, dt);
+				velocity_y_setpoint = pid_calculate(&_y_pos_pid, trajectory_setpoint_y, y_pos_ned, velocity_y_ned, dt);
+			}
 
 			// Transformation from NED to body frame
 			float sin_heading = sin(heading);

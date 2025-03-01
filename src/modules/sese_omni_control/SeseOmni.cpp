@@ -249,7 +249,7 @@ void SeseOmni::Run()
 			const float position_tolerance = 0.15f; // 15 cm
 			float velocity_x_setpoint;
 			float velocity_y_setpoint;
-			if (fabs(x_pos_ned - x_pos_setpoint) < position_tolerance && fabs(y_pos_ned - y_pos_setpoint) < position_tolerance) {
+			if (fabsf(x_pos_ned - x_pos_setpoint) < position_tolerance && fabsf(y_pos_ned - y_pos_setpoint) < position_tolerance) {
 				velocity_x_setpoint = 0.0f;
 				velocity_y_setpoint = 0.0f;
 			} else {
@@ -323,7 +323,7 @@ void SeseOmni::Run()
 			const float position_tolerance = 0.15f; // 15 cm
 			float velocity_x_setpoint;
 			float velocity_y_setpoint;
-			if (fabs(x_pos_ned - trajectory_setpoint_x) < position_tolerance && fabs(y_pos_ned - trajectory_setpoint_y) < position_tolerance) {
+			if (fabsf(x_pos_ned - trajectory_setpoint_x) < position_tolerance && fabsf(y_pos_ned - trajectory_setpoint_y) < position_tolerance) {
 				velocity_x_setpoint = 0.0f;
 				velocity_y_setpoint = 0.0f;
 			} else {

@@ -143,7 +143,7 @@ void SeseOmni::Run()
 				actuator_controls_status_s status;
 
 				thrust_setpoint.timestamp = now;
-				thrust_setpoint.xyz[0] = -manual_control_setpoint.throttle * thrust_scaling.get();
+				thrust_setpoint.xyz[0] = manual_control_setpoint.throttle * thrust_scaling.get();
 				thrust_setpoint.xyz[1] = manual_control_setpoint.yaw * thrust_scaling.get();
 				thrust_setpoint.xyz[2] = 0.0f;
 

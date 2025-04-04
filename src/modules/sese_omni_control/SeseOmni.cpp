@@ -238,9 +238,15 @@ void SeseOmni::Run()
 
 			// torque_setpoint.xyz[2] = pid_calculate(&_att_pid, heading_setpoint, heading, 0.0f, dt)*torque_scaling.get();
 
-			// Compute shortest heading error
+			// Compute shortest heading error and check if within tolerance
 			float heading_error = atan2(sin(heading_setpoint - heading), cos(heading_setpoint - heading));
-			torque_setpoint.xyz[2] = pid_calculate(&_att_pid, heading_error, 0.0f, 0.0f, dt) * torque_scaling.get();
+			const float heading_tolerance_deg = 3.0f; // degrees
+			const float heading_tolerance =  heading_tolerance_deg * (M_PI_F / 180.0f); // calculate in radians
+			if (fabsf(heading_error) < heading_tolerance) {
+				torque_setpoint.xyz[2] = 0;
+			} else {
+				torque_setpoint.xyz[2] = pid_calculate(&_att_pid, heading_error, 0.0f, 0.0f, dt) * torque_scaling.get();
+			}
 
 			// float velocity_x_setpoint = pid_calculate(&_x_pos_pid, x_pos_setpoint, x_pos_ned, velocity_x_ned, dt);
 			// float velocity_y_setpoint = pid_calculate(&_y_pos_pid, y_pos_setpoint, y_pos_ned, velocity_y_ned, dt);
@@ -317,7 +323,13 @@ void SeseOmni::Run()
 
 			// Compute shortest heading error
 			float heading_error = atan2(sin(trajectory_setpoint_heading - heading), cos(trajectory_setpoint_heading - heading));
-			torque_setpoint.xyz[2] = pid_calculate(&_att_pid, heading_error, 0.0f, 0.0f, dt) * torque_scaling.get();
+			const float heading_tolerance_deg = 3.0f; // 3 degrees
+			const float heading_tolerance =  heading_tolerance_deg * (M_PI_F / 180.0f);
+			if (fabsf(heading_error) < heading_tolerance) {
+				torque_setpoint.xyz[2] = 0;
+			} else {
+				torque_setpoint.xyz[2] = pid_calculate(&_att_pid, heading_error, 0.0f, 0.0f, dt) * torque_scaling.get();
+			}
 
 			// Position tolerance
 			const float position_tolerance = 0.15f; // 15 cm

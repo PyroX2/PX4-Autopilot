@@ -1,0 +1,5 @@
+menuconfig MODULES_SYNC_TIMERS
+    bool "sync_timers"
+    default n
+    ---help---
+        Module for measuring latency and clock offset between PX4 and Jetson.

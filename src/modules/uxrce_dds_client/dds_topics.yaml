@@ -86,6 +86,9 @@ publications:
   - topic: /fmu/out/vehicle_trajectory_waypoint_desired
     type: px4_msgs::msg::VehicleTrajectoryWaypoint
 
+  - topic: /fmu/out/latency_pong
+    type: px4_msgs::msg::LatencyPong
+
 # Create uORB::Publication
 subscriptions:
   - topic: /fmu/in/register_ext_component_request
@@ -174,6 +177,9 @@ subscriptions:
 
   - topic: /fmu/in/aux_global_position
     type: px4_msgs::msg::VehicleGlobalPosition
+
+  - topic: /fmu/in/latency_ping
+    type: px4_msgs::msg::LatencyPing
 
 # Create uORB::PublicationMulti
 subscriptions_multi:

@@ -30,3 +30,8 @@ sese_omni_control start
 #
 land_detector start rover
 
+#
+# Start fun game of ping pong between PixHawk and companion computer
+#
+sync_timers start
+
